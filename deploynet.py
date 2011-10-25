@@ -46,7 +46,7 @@ class Gateway(object):
         if self._ch:
             return
         import _core
-        gw.require(_core)
+        self.require(_core)
         self._ch = self._gw.remote_exec(_remote_command_loop)
 
 
