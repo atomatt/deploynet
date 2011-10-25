@@ -77,10 +77,6 @@ if __name__ == '__main__':
     import sys
 
     gw = Gateway(sys.argv[1])
-    gw.remote('fs.makedirs', '/home/matt/tmp/deploynet')
-    gw.remote('cd', '/home/matt/tmp/deploynet')
     import _venv; gw.require(_venv)
-    gw.remote('python.virtualenv', 'vpy')
-    gw.remote('shell', './vpy/bin/pip install restish')
-    gw.remote('sudo', '/etc/init.d/nginx reload')
+    gw.remote('venv.install', 'vpy')
     gw.close()
