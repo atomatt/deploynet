@@ -56,14 +56,14 @@ def _remote_init(channel):
     process.
     """
     import sys
-    m = sys.modules.setdefault('__deploynet__', {})
+    sys.modules.setdefault('__deploynet__', {})
 
 
 def _remote_command_loop(channel):
     """
     Run a command loop in the remote process.
     """
-    import os, sys
+    import sys
     m = sys.modules['__deploynet__']
     for item in channel:
         func = m[item['name']]
