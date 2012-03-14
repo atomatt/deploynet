@@ -19,7 +19,7 @@ class Gateway(object):
         Install source module in remote Python process.
         """
         ch = self._gw.remote_exec(source)
-        print ch.receive()
+        ch.receive()
         ch.waitclose()
 
     def remote(self, name, *args, **kwargs):
