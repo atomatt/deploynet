@@ -14,6 +14,12 @@ def install(path):
     os.system(" ".join(cmd))
 
 
+def install_requirements(venv, requirements_txt):
+    cmd = ["./", venv, "/bin/pip install -r ", requirements_txt]
+    return os.system("".join(cmd))
+
+
 __exports__ = {
-    "venv.install": install
+    "venv.install": install,
+    "venv.install_requirements": install_requirements,
 }
