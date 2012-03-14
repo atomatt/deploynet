@@ -5,7 +5,6 @@ class Gateway(object):
 
     def __init__(self, spec=None):
         self._gw = execnet.makegateway(spec)
-        self._gw.remote_exec(_remote_init).waitclose()
         self._ch = None
 
     def close(self):
@@ -63,15 +62,6 @@ def _require(channel, modulename, module):
     # Merge the module's exports into the magic module.
     m = sys.modules.setdefault('__deploynet__', {})
     m.update(l["__exports__"])
-
-
-def _remote_init(channel):
-    """
-    Initialise the dummy __deploynet__ module in the remote Python
-    process.
-    """
-    import sys
-    sys.modules.setdefault('__deploynet__', {})
 
 
 def _remote_command_loop(channel):
