@@ -22,7 +22,6 @@ class Gateway(object):
             module = f.read()
         ch = self._gw.remote_exec(_require, modulename=modulename,
                                   module=module)
-        ch.receive()
         ch.waitclose()
 
     def remote(self, name, *args, **kwargs):
@@ -64,7 +63,6 @@ def _require(channel, modulename, module):
     # Merge the module's exports into the magic module.
     m = sys.modules.setdefault('__deploynet__', {})
     m.update(l["__exports__"])
-    channel.send(0)
 
 
 def _remote_init(channel):
