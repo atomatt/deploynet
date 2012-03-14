@@ -83,5 +83,7 @@ if __name__ == '__main__':
 
     gw = Gateway(sys.argv[1])
     gw.require("_venv")
+    gw.rsync("requirements.txt", "requirements.txt")
     gw.remote("venv.install", "vpy")
+    gw.remote("venv.install_requirements", "vpy", "requirements.txt")
     gw.close()
