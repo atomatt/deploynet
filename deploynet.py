@@ -14,11 +14,14 @@ class Gateway(object):
         """
         self._gw.exit()
 
-    def require(self, source):
+    def require(self, modulename):
         """
         Install source module in remote Python process.
         """
-        ch = self._gw.remote_exec(source)
+        with open(modulename+".py") as f:
+            module = f.read()
+        ch = self._gw.remote_exec(_require, modulename=modulename,
+                                  module=module)
         ch.receive()
         ch.waitclose()
 
@@ -45,9 +48,23 @@ class Gateway(object):
         """
         if self._ch:
             return
-        import _core
-        self.require(_core)
+        self.require("_core")
         self._ch = self._gw.remote_exec(_remote_command_loop)
+
+
+def _require(channel, modulename, module):
+
+    import sys
+
+    # Compile the module.
+    l = {}
+    code = compile(module, modulename, "exec")
+    eval(code, l)
+
+    # Merge the module's exports into the magic module.
+    m = sys.modules.setdefault('__deploynet__', {})
+    m.update(l["__exports__"])
+    channel.send(0)
 
 
 def _remote_init(channel):
@@ -77,6 +94,6 @@ if __name__ == '__main__':
     import sys
 
     gw = Gateway(sys.argv[1])
-    import _venv; gw.require(_venv)
-    gw.remote('venv.install', 'vpy')
+    gw.require("_venv")
+    gw.remote("venv.install", "vpy")
     gw.close()

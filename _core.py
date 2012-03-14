@@ -34,11 +34,9 @@ def sudo(command, password=None):
             'stderr': stderr}
 
 
-if __name__ == '__channelexec__':
-    import sys
-    m = sys.modules['__deploynet__']
-    m['cd'] = os.chdir
-    m['shell'] = shell
-    m['sudo'] = sudo
-    m['fs.makedirs'] = makedirs
-    channel.send(dir(m))
+__exports__ = {
+    'cd': os.chdir,
+    'shell': shell,
+    'sudo': sudo,
+    'fs.makedirs': makedirs,
+}
