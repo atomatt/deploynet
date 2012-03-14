@@ -1,11 +1,17 @@
 import os
 import os.path
+import sys
+
+
+VIRTUALENV_URL = "https://github.com/pypa/virtualenv/raw/master/virtualenv.py"
 
 
 def install(path):
     if os.path.exists(path):
         return
-    os.system('wget --quiet --no-check-certificate -O - https://github.com/pypa/virtualenv/raw/master/virtualenv.py | python - --distribute %s' % path)
+    cmd = ["wget --quiet --no-check-certificate -O -", VIRTUALENV_URL, "|",
+           sys.executable, "- --distribute", path]
+    os.system(" ".join(cmd))
 
 
 __exports__ = {
