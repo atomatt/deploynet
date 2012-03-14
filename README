@@ -1,0 +1,36 @@
+Deploynet (stupid name, I know) is an experiment I started a long time ago
+after playing with tools like Fabric that tend to execute remote shell commands
+and leave you to parse the text output.
+
+I thought it might be nicer and simpler to execute remote Python functions and
+get back structured data, i.e. something that needed no parsing.
+
+There were only a couple of requirements I set out with:
+
+  * No remote dependencies other than Python.
+  * Remote code packages to aid reuse.
+
+And that bit basically seems to work, although with minimal error handling etc.
+
+An example of its use might be:
+
+    >>> import deploynet
+    >>> gw = deploynet.Gateway("ssh=someuser@somehost.somedomain//chdir=foo")
+    >>> gw.require("_venv")
+    >>> gw.remote("venv.install", "vpy")
+
+Which would:
+
+  * Open a SSH connection to the remote host, change to the "foo" directory,
+  * and start a Python process.
+  * Require/import the _venv package into the remote Python process..
+  * Execute the "venv.install" function, provided by the _venv package, to
+    create a new virtualenv environment in the "vpy" subdirectory of "foo".
+
+(See http://codespeak.net/execnet/basics.html#examples-for-valid-gateway-specifications
+for valid gateway specifications.)
+
+What now? Absolutely no idea ;-). Clearly, it's not all that useful in its
+current form and, to be honest, I'm not even convinced it that's much better
+than Fabric. The last thing I intend to do is reinvent Fabric, but using
+execnet, and then ony use it to call remote shell commands anyway.
