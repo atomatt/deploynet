@@ -1,3 +1,8 @@
+More convenient API to send/receive a single file.
+    Can probably just use rsync underneath.
+
+Should remote functions be able to use other modules?
+
 Logging, maybe via some context that gets passed.
 
 Higher level task-like mode, similar to Fabric perhaps?
